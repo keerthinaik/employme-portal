@@ -1,0 +1,16 @@
+@media (max-width: 576px) {
+  .privacy-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+@media (max-width: 576px) {
+  .privacy-button {
+    padding: 4px 10px !important;
+    font-size: 0.8rem;
+  }
+}
