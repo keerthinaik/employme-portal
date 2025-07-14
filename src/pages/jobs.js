@@ -1,14 +1,11 @@
-import React from "react";
-import { Link } from "react-router-dom";
-
-import bg1 from "../assets/images/hero/bg.jpg";
+import { Link, useLocation } from "react-router-dom";
+import { get } from "../apis/api"; // adjust path if needed
 
 import Navbar from "../componants/navbar";
 
 import Footer from "../componants/footer";
 import ScrollTop from "../componants/scrollTop";
 
-import { jobData } from "../data/data";
 import {
   FiClock,
   FiMapPin,
@@ -22,23 +19,50 @@ import PopularListing from "../componants/popularListing";
 import SearchInput from "../componants/searchInput";
 import { useState, useEffect } from "react";
 import JobSearch from "../componants/JobSearch";
-
+import { timeAgo } from "../utils/timeAgoUtil";
 
 function useIsMediumScreen() {
   const [isMedium, setIsMedium] = useState(window.innerWidth >= 768);
 
   useEffect(() => {
     const handler = () => setIsMedium(window.innerWidth >= 768);
-    window.addEventListener('resize', handler);
-    return () => window.removeEventListener('resize', handler);
+    window.addEventListener("resize", handler);
+    return () => window.removeEventListener("resize", handler);
   }, []);
 
   return isMedium;
 }
 
-export default function JobListTwo() {
+export default function Jobs() {
   const [showFilter, setshowFilter] = useState(false);
+  const [jobData, setJobData] = useState([{}]);
   const isMediumScreen = useIsMediumScreen();
+  const location = useLocation();
+  const query = new URLSearchParams(location.search);
+
+  useEffect(() => {
+    // Build API query string from URL params
+    const params = [];
+    if (query.get("title"))
+      params.push(`title=${encodeURIComponent(query.get("title"))}`);
+    if (query.get("country"))
+      params.push(`country=${encodeURIComponent(query.get("country"))}`);
+    if (query.get("type"))
+      params.push(`type=${encodeURIComponent(query.get("type"))}`);
+
+    const apiUrl = `/api/v1/jobs${params.length ? "?" + params.join("&") : ""}`;
+
+    // Fetch jobs
+    get(apiUrl)
+      .then((data) => {
+        console.log("Fetched jobs:", data.data);
+        setJobData(data.data);
+      })
+      .catch((err) => {
+        console.error("Error fetching jobs:", err);
+      });
+  }, [location.search]);
+
   return (
     <>
       <Navbar navClass="defaultscroll sticky" navLight={true} />
@@ -155,21 +179,7 @@ export default function JobListTwo() {
 
             {/* Find Jobs Button */}
             <div className="d-none d-md-block text-end align-items-center">
-              <button
-                style={{
-                  backgroundColor: "#1976d2",
-                  color: "white",
-                  border: "none",
-                  padding: "10px 16px",
-                  borderRadius: "4px",
-                  cursor: "pointer",
-                  fontWeight: "bold",
-                  textAlign: "center",
-                  flexShrink: 0, // Prevents shrinking
-                  minWidth: "140px", // Ensures button stays on one line
-                }}
-                className="find-jobs-btn"
-              >
+              <button className="find-jobs-btn btn btn-primary">
                 Find jobs
               </button>
             </div>
@@ -177,21 +187,7 @@ export default function JobListTwo() {
               className="d-flex justify-content-between align-items-center d-md-none"
               style={{ marginTop: "16px", width: "100%" }}
             >
-              <button
-                style={{
-                  backgroundColor: "#1976d2",
-                  color: "white",
-                  border: "none",
-                  padding: "10px 16px",
-                  borderRadius: "4px",
-                  cursor: "pointer",
-                  fontWeight: "bold",
-                  textAlign: "center",
-                  flexShrink: 0, // Prevents shrinking
-                  minWidth: "140px", // Ensures button stays on one line
-                }}
-                className="find-jobs-btn"
-              >
+              <button className="find-jobs-btn btn btn-primary">
                 Find jobs
               </button>
               <button
@@ -230,7 +226,7 @@ export default function JobListTwo() {
           </div>
           <div className="row g-4 mt-2">
             <div className="col-lg-4 col-md-6 col-12">
-              {showFilter ||  isMediumScreen ? (
+              {showFilter || isMediumScreen ? (
                 <div className="card bg-white p-4 rounded shadow sticky-bar">
                   {/* <div>
                     <h6 className="mb-0">Search Properties</h6>
@@ -472,11 +468,11 @@ export default function JobListTwo() {
               <div className="row g-4">
                 {jobData.map((item, index) => {
                   return (
-                    <div className="col-12" key={index}>
+                    <div className="col-12" key={item.id}>
                       <div className="job-post job-post-list rounded shadow p-4 d-md-flex align-items-center justify-content-between position-relative">
                         <div className="d-flex align-items-center w-250px">
                           <img
-                            src={item.image}
+                            src={item.employer}
                             className="avatar avatar-small rounded shadow p-3 bg-white"
                             alt=""
                           />
@@ -493,18 +489,18 @@ export default function JobListTwo() {
 
                         <div className="d-flex align-items-center justify-content-between d-md-block mt-3 mt-md-0 w-100px">
                           <span className="badge bg-soft-primary rounded-pill">
-                            {item.jobTime}
+                            {item.type}
                           </span>
                           <span className="text-muted d-flex align-items-center fw-medium mt-md-2">
                             <FiClock className="fea icon-sm me-1 align-middle" />
-                            {item.posted} days ago
+                            {timeAgo(item.createdAt)}
                           </span>
                         </div>
 
                         <div className="d-flex align-items-center justify-content-between d-md-block mt-2 mt-md-0 w-130px">
                           <span className="text-muted d-flex align-items-center">
                             <FiMapPin className="fea icon-sm me-1 align-middle" />
-                            {item.country}
+                            {item.city}
                           </span>
                           <span className="d-flex fw-medium mt-md-2">
                             $950 - $1100/mo
@@ -514,7 +510,7 @@ export default function JobListTwo() {
                         <div className="mt-3 mt-md-0">
                           <Link
                             to="#"
-                              className="btn btn-icon btn-sm btn-soft-primary me-2"
+                            className="btn btn-icon btn-sm btn-soft-primary me-2"
                             // className="btn btn-sm btn-icon btn-pills btn-soft-primary bookmark"
                           >
                             <FiShare2 className="icons" />

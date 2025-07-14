@@ -5,7 +5,7 @@ import "./assets/scss/style.scss";
 import "./assets/css/materialdesignicons.min.css";
 import Index from "./pages";
 
-import JobListTwo from "./pages/job-list-two";
+import JobListTwo from "./pages/jobs";
 import JobApply from "./pages/job-apply";
 import JobPost from "./pages/job-post";
 import JobDetailThree from "./pages/job-detail-three";
@@ -33,7 +33,7 @@ function App() {
     <AuthProvider>
       <Routes>
         <Route path="/" exact element={<Index />} />
-        <Route path="/job-list-Two" element={<JobListTwo />} />
+        <Route path="/jobs" element={<JobListTwo />} />
         <Route path="/job-apply" element={<JobApply />} />
         <Route path="/job-post" element={<JobPost />} />
         <Route path="/job-detail-three" element={<JobDetailThree />} />
