@@ -27,6 +27,8 @@ import Comingsoom from "./pages/comingsoon";
 import Maintenance from "./pages/maintenance";
 import AboutTwo from "./componants/aboutTwo";
 import { AuthProvider } from "./apis/AuthContext";
+import Employers from "./pages/employers";
+import Profile from "./pages/profile";
 
 function App() {
   return (
@@ -41,6 +43,8 @@ function App() {
         <Route path="/candidates" element={<Candidates />} />
         <Route path="/candidate-profile" element={<CandidateProfile />} />
         <Route path="/candidate-profile/:id" element={<CandidateProfile />} />
+        <Route path="/companies" element={<Employers />} />
+        <Route path="/profile" element={<Profile />} />
         <Route
           path="/candidate-profile-setting"
           element={<CandidateProfileSetting />}

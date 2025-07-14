@@ -21,9 +21,12 @@ const PopularCountriesComponent = () => {
         {popularCountry.map((item, index) => (
           <div className="col" key={index}>
             <div className="job-category job-category-two rounded shadow bg-light p-3">
-            <h5 className="mb-1">{item.country}</h5>
+              <h5 className="mb-1">{item.country}</h5>
               <p className="text-muted para mb-2">{item.jobs} Jobs</p>
-              <Link to="/job-list-Two" className="text-primary fw-medium link">
+              <Link
+                to={`/jobs?country=${item.isoCode}`}
+                className="text-primary fw-medium link"
+              >
                 Explore Jobs <i className="mdi mdi-arrow-right"></i>
               </Link>
             </div>

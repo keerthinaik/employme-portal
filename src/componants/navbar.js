@@ -68,7 +68,7 @@ export default function Navbar({ navClass = "", navLight = false }) {
           <ul className="navbar-nav flex-row align-items-center mb-0">
             <li className="nav-item mx-2">
               <Link
-                to="/job-list-two"
+                to="/jobs"
                 className={`nav-link${
                   location.pathname.startsWith("/job") ? " active" : ""
                 }`}
@@ -125,7 +125,7 @@ export default function Navbar({ navClass = "", navLight = false }) {
                   }}
                 >
                   <Link
-                    to="/candidate-profile"
+                    to="/profile"
                     className="dropdown-item fw-medium fs-6"
                     onClick={() => setDropdownOpen(false)}
                   >
@@ -179,7 +179,7 @@ export default function Navbar({ navClass = "", navLight = false }) {
             <ul className="navbar-nav flex-column px-3 pt-3">
               <li className="nav-item mb-2">
                 <Link
-                  to="/job-list-two"
+                  to="/jobs"
                   className={`nav-link${
                     location.pathname.startsWith("/job") ? " active" : ""
                   }`}

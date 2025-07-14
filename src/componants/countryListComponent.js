@@ -30,8 +30,12 @@ const CountryListComponent = () => {
             <ul className="text-white align-items-start d-flex flex-column">
               {regionData.countries.map((country, idx) => (
                 <li key={idx} className="mt-2">
-                  <Link to="/job-list-Two" className="fw-medium link" style={{ color: 'white' }}>
-                  {country}
+                  <Link
+                    to={`/jobs?country=${country.isoCode}`}
+                    className="fw-medium link"
+                    style={{ color: "white" }}
+                  >
+                    {country.name}
                   </Link>
                 </li>
               ))}
