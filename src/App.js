@@ -26,9 +26,11 @@ import Error from "./pages/error";
 import Comingsoom from "./pages/comingsoon";
 import Maintenance from "./pages/maintenance";
 import AboutTwo from "./componants/aboutTwo";
+import { AuthProvider } from "./apis/AuthContext";
+
 function App() {
   return (
-    <>
+    <AuthProvider>
       <Routes>
         <Route path="/" exact element={<Index />} />
         <Route path="/job-list-Two" element={<JobListTwo />} />
@@ -57,7 +59,7 @@ function App() {
         <Route path="/comingsoon" element={<Comingsoom />} />
         <Route path="/maintenance" element={<Maintenance />} />
       </Routes>
-    </>
+    </AuthProvider>
   );
 }
 

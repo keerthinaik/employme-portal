@@ -1,21 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import { FiBriefcase, FiMapPin, FiSearch } from "../assets/icons/vander";
 import { Link } from "react-router-dom";
+import { get } from "../apis/api";
+
 export default function FormSelect() {
-  let location = [
-    { value: "Afghanistan", label: "Afghanistan" },
-    { value: "Azerbaijan", label: "Azerbaijan" },
-    { value: "Bahrain", label: "Bahrain" },
-    { value: "Canada", label: "Canada" },
-    { value: "Cape Verde", label: "Cape Verde" },
-    { value: "Denmark", label: "Denmark" },
-    { value: "Djibouti", label: "Djibouti" },
-    { value: "Eritrea", label: "Eritrea" },
-    { value: "Estonia", label: "Estonia" },
-    { value: "Gambia", label: "Gambia" },
-    { value: "Gambia", label: "Gambia" },
-  ];
+  const [locationOptions, setLocationOptions] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchCountries() {
+      try {
+        const res = await get("/api/location/countries");
+        if (res.status === "success" && Array.isArray(res.data)) {
+          setLocationOptions(
+            res.data.map((country) => ({
+              value: country.isoCode,
+              label: country.name,
+            }))
+          );
+        }
+      } catch (err) {
+        setLocationOptions([]);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchCountries();
+  }, []);
+
   let type = [
     { value: "Full Time", label: "Full Time" },
     { value: "Part Time", label: "Part Time" },
@@ -50,7 +63,11 @@ export default function FormSelect() {
                 <label className="form-label d-none fs-6">Location:</label>
                 <div className="filter-search-form position-relative filter-border">
                   <FiMapPin className="fea icon-20 icons" />
-                  <Select options={location} />
+                  <Select
+                    options={locationOptions}
+                    isLoading={loading}
+                    placeholder="Select country"
+                  />
                 </div>
               </div>
             </div>
