@@ -1,128 +1,151 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import bg1 from "../assets/images/hero/bg3.jpg";
-import logo from "../assets/images/logo-dark.png";
 import Navbar from "../componants/navbar";
 import Footer from "../componants/footer";
+import googleLogo from "../assets/images/svg/google.svg";
+import fbLogo from "../assets/images/svg/facebook.svg";
+import appleLogo from "../assets/images/svg/appleId.svg";
+import linkedInLogo from "../assets/images/svg/linkedin.svg";
 
 export default function Signup() {
-  const [isChecked, setIsChecked] = useState(true); // default to checked
-
-  const handleCheckboxChange = () => {
-    setIsChecked(!isChecked); // Toggle checkbox state
-  };
-
   return (
-    <>
+    <div>
       <Navbar navClass="defaultscroll sticky" navLight={true} />
       <section
-        className="bg-half-140 d-flex align-items-center justify-content-center"
+        className="bg-home d-flex align-items-center justify-content-center"
         style={{ backgroundImage: `url(${bg1})`, backgroundPosition: "center" }}
       >
-        <div className="bg-overlay bg-linear-gradient-2 "></div>
-        <div className="container mb-60">
-          <div className="row">
-            <div className="col-lg-8 col-md-5 col-12">
+        <div className="container-fluid px-0">
+          <div className="row g-0 justify-content-center w-100">
+            <div className="col-lg-4 col-md-5 col-12 p-0 d-flex justify-content-center">
               <div
-                className="p-4 bg-white rounded shadow-md mx-auto w-auto"
-                style={{ maxWidth: "400px" }}
+                className="bg-white rounded-4 shadow p-4 w-100"
+                style={{ maxWidth: 400 }}
               >
-                <form>
-                  <Link to="/">
-                    <h4
-                      style={{
-                        color: " #40189d",
-                        textAlign: "center",
-                      }}
-                      className="pb-2"
-                    >
-                      Employ Me
-                    </h4>
-                  </Link>
-                  <h6 className="mb-3 text-uppercase fw-semibold">
-                    Register your account
-                  </h6>
-
+                <h5 className="text-center fw-bold mb-1 text-primary">
+                  Sign up to EmployMe
+                </h5>
+                <p className="text-center mb-3" style={{ fontSize: 13 }}>
+                  By continuing you indicate that you agree to EmployMe's{" "}
+                  <a
+                    href="#"
+                    className="text-primary text-decoration-underline"
+                  >
+                    Terms of Service
+                  </a>{" "}
+                  and{" "}
+                  <a
+                    href="#"
+                    className="text-primary text-decoration-underline"
+                  >
+                    Privacy Policy
+                  </a>
+                  .
+                </p>
+                {/* Social signup buttons */}
+                <div className="d-flex justify-content-center gap-3 mb-4">
+                  <button
+                    className="btn btn-light shadow-sm d-flex align-items-center justify-content-center p-0"
+                    style={{ borderRadius: "50%", width: 48, height: 48 }}
+                  >
+                    <img src={googleLogo} height={24} alt="Google" />
+                  </button>
+                  <button
+                    className="btn btn-light shadow-sm d-flex align-items-center justify-content-center p-0"
+                    style={{ borderRadius: "50%", width: 48, height: 48 }}
+                  >
+                    <img src={linkedInLogo} height={24} alt="LinkedIn" />
+                  </button>
+                  <button
+                    className="btn btn-light shadow-sm d-flex align-items-center justify-content-center p-0"
+                    style={{ borderRadius: "50%", width: 48, height: 48 }}
+                  >
+                    <img src={appleLogo} height={24} alt="Apple" />
+                  </button>
+                  <button
+                    className="btn btn-light shadow-sm d-flex align-items-center justify-content-center p-0"
+                    style={{ borderRadius: "50%", width: 48, height: 48 }}
+                  >
+                    <img src={fbLogo} height={24} alt="Facebook" />
+                  </button>
+                </div>
+                {/* Divider */}
+                <div className="d-flex align-items-center mb-3">
+                  <div className="flex-1 border-bottom" />
+                  <span className="mx-2 text-muted small">or</span>
+                  <div className="flex-1 border-bottom" />
+                </div>
+                {/* Signup form */}
+                <form className="w-100">
                   <div className="mb-3">
-                    <label className="form-label fw-semibold">Your Name</label>
+                    <label className="form-label fw-semibold" htmlFor="name">
+                      Name
+                    </label>
                     <input
                       name="name"
                       id="name"
                       type="text"
                       className="form-control"
-                      placeholder="Calvin Carlo"
+                      placeholder="Your name"
+                      autoComplete="name"
                     />
                   </div>
-
                   <div className="mb-3">
-                    <label className="form-label fw-semibold">Your Email</label>
+                    <label className="form-label fw-semibold" htmlFor="email">
+                      Email address
+                    </label>
                     <input
                       name="email"
                       id="email"
                       type="email"
                       className="form-control"
                       placeholder="example@website.com"
+                      autoComplete="username"
                     />
                   </div>
-
                   <div className="mb-3">
                     <label
                       className="form-label fw-semibold"
-                      htmlFor="loginpass"
+                      htmlFor="password"
                     >
                       Password
                     </label>
                     <input
                       type="password"
                       className="form-control"
-                      id="loginpass"
+                      id="password"
                       placeholder="Password"
+                      autoComplete="new-password"
                     />
                   </div>
-
-                  <div className="form-check mb-3">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      value=""
-                      id="flexCheckDefault"
-                      checked={isChecked}
-                      onChange={handleCheckboxChange}
-                    />
+                  <div className="mb-3">
                     <label
-                      className="form-label form-check-label text-muted"
-                      htmlFor="flexCheckDefault"
-                      style={{
-                        textDecorationColor: "#fbf6ff",
-                      }}
+                      className="form-label fw-semibold"
+                      htmlFor="confirmpass"
                     >
-                      I Accept{" "}
-                      <Link
-                        to="/terms"
-                        style={{
-                          textDecorationColor: "#fbf6ff",
-                        }}
-                      >
-                        Terms And Condition
-                      </Link>
+                      Confirm Password
                     </label>
+                    <input
+                      type="password"
+                      className="form-control"
+                      id="confirmpass"
+                      placeholder="Confirm Password"
+                      autoComplete="new-password"
+                    />
                   </div>
-
                   <button
-                    className="btn btn-primary w-100"
+                    className="btn btn-primary w-100 fw-bold"
+                    style={{ fontSize: 16 }}
                     type="submit"
-                    disabled={!isChecked}
                   >
-                    Register
+                    SIGN UP
                   </button>
-
-                  <div className="col-12 text-center mt-3">
-                    <span>
-                      <span className="text-muted small me-2">
-                        Already have an account ?{" "}
-                      </span>{" "}
-                      <Link to="/login" className="text-dark fw-semibold small">
-                        Sign in
+                  <div className="text-center mt-3">
+                    <span className="text-muted small">
+                      Already have an account?{" "}
+                      <Link to="/login" className="fw-semibold text-primary">
+                        Sign In
                       </Link>
                     </span>
                   </div>
@@ -133,6 +156,6 @@ export default function Signup() {
         </div>
       </section>
       <Footer />
-    </>
+    </div>
   );
 }

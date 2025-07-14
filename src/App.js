@@ -31,7 +31,6 @@ function App() {
     <>
       <Routes>
         <Route path="/" exact element={<Index />} />
-        <Route path="/index-two" element={<Index />} />
         <Route path="/job-list-Two" element={<JobListTwo />} />
         <Route path="/job-apply" element={<JobApply />} />
         <Route path="/job-post" element={<JobPost />} />

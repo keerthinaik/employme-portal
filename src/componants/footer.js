@@ -127,7 +127,7 @@ export default function Footer({ top }) {
             </div>
           </div>
         </div>
-        <PrivacyFixedBottom />
+        {/* <PrivacyFixedBottom /> */}
       </div>
     </footer>
   );
