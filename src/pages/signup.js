@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import bg1 from "../assets/images/hero/bg3.jpg";
 import Navbar from "../componants/navbar";
@@ -7,8 +7,49 @@ import googleLogo from "../assets/images/svg/google.svg";
 import fbLogo from "../assets/images/svg/facebook.svg";
 import appleLogo from "../assets/images/svg/appleId.svg";
 import linkedInLogo from "../assets/images/svg/linkedin.svg";
+import { post } from "../apis/api"; // <-- Import post method
 
 export default function Signup() {
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmpass: "",
+  });
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    if (!form.name || !form.email || !form.password || !form.confirmpass) {
+      setError("All fields are required.");
+      return;
+    }
+    if (form.password !== form.confirmpass) {
+      setError("Passwords do not match.");
+      return;
+    }
+    setLoading(true);
+    try {
+      // Use post from api.js
+      await post("/api/v1/jobseekers", {
+        name: form.name,
+        email: form.email,
+        password: form.password,
+      });
+      // Redirect or show success
+      window.location.href = "/login";
+    } catch (err) {
+      setError(err.message || "Signup failed.");
+    }
+    setLoading(false);
+  };
+
   return (
     <div>
       <Navbar navClass="defaultscroll sticky" navLight={true} />
@@ -77,7 +118,7 @@ export default function Signup() {
                   <div className="flex-1 border-bottom" />
                 </div>
                 {/* Signup form */}
-                <form className="w-100">
+                <form className="w-100" onSubmit={handleSubmit}>
                   <div className="mb-3">
                     <label className="form-label fw-semibold" htmlFor="name">
                       Name
@@ -89,6 +130,8 @@ export default function Signup() {
                       className="form-control"
                       placeholder="Your name"
                       autoComplete="name"
+                      value={form.name}
+                      onChange={handleChange}
                     />
                   </div>
                   <div className="mb-3">
@@ -102,6 +145,8 @@ export default function Signup() {
                       className="form-control"
                       placeholder="example@website.com"
                       autoComplete="username"
+                      value={form.email}
+                      onChange={handleChange}
                     />
                   </div>
                   <div className="mb-3">
@@ -115,8 +160,11 @@ export default function Signup() {
                       type="password"
                       className="form-control"
                       id="password"
+                      name="password"
                       placeholder="Password"
                       autoComplete="new-password"
+                      value={form.password}
+                      onChange={handleChange}
                     />
                   </div>
                   <div className="mb-3">
@@ -130,16 +178,23 @@ export default function Signup() {
                       type="password"
                       className="form-control"
                       id="confirmpass"
+                      name="confirmpass"
                       placeholder="Confirm Password"
                       autoComplete="new-password"
+                      value={form.confirmpass}
+                      onChange={handleChange}
                     />
                   </div>
+                  {error && (
+                    <div className="alert alert-danger py-2">{error}</div>
+                  )}
                   <button
                     className="btn btn-primary w-100 fw-bold"
                     style={{ fontSize: 16 }}
                     type="submit"
+                    disabled={loading}
                   >
-                    SIGN UP
+                    {loading ? "Signing Up..." : "SIGN UP"}
                   </button>
                   <div className="text-center mt-3">
                     <span className="text-muted small">
