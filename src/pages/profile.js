@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Navbar from "../componants/navbar";
 import Footer from "../componants/footer";
 import ScrollTop from "../componants/scrollTop";
-import { BASE_URL, get } from "../apis/api";
+import { BASE_URL, get, apiRequest } from "../apis/api";
 import {
   FiEdit,
   FiDownload,
@@ -41,7 +41,7 @@ function timeAgo(date) {
 }
 
 const mapApiToUser = (data) => ({
-  banner: data.bannerImage ? `${BASE_URL}${data.bannerImage}` : "",
+  banner: data.bannerImage ? `${BASE_URL}/${data.bannerImage}` : "",
   profilePhoto: data.profilePhoto ? `${BASE_URL}/${data.profilePhoto}` : "",
   fullName: data.name || "",
   headline: data.headline || "",
@@ -103,11 +103,64 @@ const mapApiToUser = (data) => ({
   createdAt: data.createdAt || "",
 });
 
+const mapUserToApi = (user) => ({
+  name: user.fullName,
+  headline: user.headline,
+  email: user.email,
+  phoneNumber: user.phone,
+  gender: user.gender ? user.gender.toLowerCase() : "",
+  dateOfBirth: user.dob,
+  city: user.address.city,
+  state: user.address.state,
+  country: user.address.country,
+  zipCode: user.address.zip,
+  address: user.address.address,
+  summary: user.summary,
+  about: user.about,
+  education: (user.education || []).map((edu) => ({
+    degree: edu.degree,
+    institution: edu.institution,
+    fieldOfStudy: edu.field,
+    cgpa: edu.cgpa,
+    startDate: edu.start,
+    endDate: edu.end,
+  })),
+  experience: (user.experience || []).map((exp) => ({
+    jobTitle: exp.title,
+    companyName: exp.company,
+    startDate: exp.start,
+    endDate: exp.end,
+    isCurrent: exp.isCurrent,
+    responsibilities: exp.responsibilities
+      ? exp.responsibilities.split(",").map((s) => s.trim())
+      : [],
+    achievements: exp.achievements
+      ? exp.achievements.split(",").map((s) => s.trim())
+      : [],
+  })),
+  projects: (user.projects || []).map((proj) => ({
+    title: proj.title,
+    description: proj.description,
+    url: proj.url,
+    // You may want to split duration back to startDate/endDate if needed
+  })),
+  skills: user.skills,
+  certifications: user.certifications,
+  linkedInProfile: user.social.linkedin,
+  githubProfile: user.social.github,
+  portfolio: user.social.portfolio,
+  passportNumber: user.passport,
+  provider: user.provider,
+  // resume, profilePhoto, bannerImage: handle file uploads separately if needed
+});
+
 export default function Profile() {
   const [user, setUser] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [editUser, setEditUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
 
   // Fetch profile data on mount
   useEffect(() => {
@@ -228,11 +281,25 @@ export default function Profile() {
   };
 
   // Save/cancel
-  const handleSave = () => {
-    setUser(editUser);
-    setEditMode(false);
-    // TODO: Call API to save changes
+  const handleSave = async () => {
+    setSaving(true);
+    setError("");
+    try {
+      // Prepare data for API
+      const payload = mapUserToApi(editUser);
+      await apiRequest("/api/v1/auth/me", {
+        method: "PUT",
+        body: payload,
+      });
+      setUser(editUser);
+      setEditMode(false);
+    } catch (err) {
+      setError(err.message || "Failed to update profile");
+    } finally {
+      setSaving(false);
+    }
   };
+
   const handleCancel = () => {
     setEditUser(user);
     setEditMode(false);
@@ -362,12 +429,18 @@ export default function Profile() {
                 )}
                 {editMode && (
                   <>
-                    <button className="btn btn-primary" onClick={handleSave}>
-                      <FiCheckCircle className="me-1" /> Save Changes
+                    <button
+                      className="btn btn-primary"
+                      onClick={handleSave}
+                      disabled={saving}
+                    >
+                      <FiCheckCircle className="me-1" />{" "}
+                      {saving ? "Saving..." : "Save Changes"}
                     </button>
                     <button
                       className="btn btn-outline-secondary"
                       onClick={handleCancel}
+                      disabled={saving}
                     >
                       <FiXCircle className="me-1" /> Cancel
                     </button>
@@ -375,6 +448,9 @@ export default function Profile() {
                 )}
               </div>
             </div>
+            {error && (
+              <div className="alert alert-danger mx-4 mb-0">{error}</div>
+            )}
           </div>
 
           {/* Main Content */}
