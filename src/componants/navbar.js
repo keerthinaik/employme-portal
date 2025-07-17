@@ -4,9 +4,7 @@ import logoDark from "../assets/images/logo-dark.png";
 import client from "../assets/images/team/01.jpg";
 import { FiUser, FiLogOut, FiMenu } from "../assets/icons/vander";
 import { useAuth } from "../apis/AuthContext";
-
-// Set your API base URL here
-const BASE_URL = "http://localhost:3000";
+import { BASE_URL } from "../apis/api";
 
 export default function Navbar({ navClass = "", navLight = false }) {
   const { user, logout } = useAuth();
