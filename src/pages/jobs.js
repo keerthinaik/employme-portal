@@ -586,7 +586,7 @@ export default function Jobs() {
               <div className="row g-4">
                 {jobData.map((item, index) => {
                   return (
-                    <div className="col-12" key={item.id}>
+                    <div className="col-12" key={index}>
                       <div className="job-post job-post-list rounded shadow p-4 d-md-flex align-items-center justify-content-between position-relative">
                         <div className="d-flex align-items-center w-250px">
                           <img
@@ -615,7 +615,7 @@ export default function Jobs() {
                           </span>
                           <span className="text-muted d-flex align-items-center fw-medium mt-md-2">
                             <FiClock className="fea icon-sm me-1 align-middle" />
-                            {timeAgo(item.createdAt)}
+                            {/* {timeAgo(item.createdAt)} */}
                           </span>
                         </div>
 

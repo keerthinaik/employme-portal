@@ -8,7 +8,7 @@ import Index from "./pages";
 import JobListTwo from "./pages/jobs";
 import JobApply from "./pages/job-apply";
 import JobPost from "./pages/job-post";
-import JobDetailThree from "./pages/job-detail-three";
+import JobDetailThree from "./pages/job-detail";
 
 import Candidates from "./pages/candidates";
 import CandidateProfile from "./pages/candidate-profile";
@@ -39,7 +39,7 @@ function App() {
         <Route path="/jobs" element={<JobListTwo />} />
         <Route path="/job-apply" element={<JobApply />} />
         <Route path="/job-post" element={<JobPost />} />
-        <Route path="/jobs/:id" element={<JobDetailThree />} />
+        <Route path="/jobs/:id" element={<JobDetail />} />
         <Route path="/candidates" element={<Candidates />} />
         <Route path="/candidate-profile" element={<CandidateProfile />} />
         <Route path="/candidate-profile/:id" element={<CandidateProfile />} />
