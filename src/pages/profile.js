@@ -22,6 +22,8 @@ import {
   FiGlobe,
 } from "../assets/icons/vander";
 
+import bg4 from "../assets/images/hero/bg4.jpg";
+
 function formatDate(date) {
   if (!date) return "";
   return new Date(date).toLocaleDateString();
@@ -348,7 +350,7 @@ export default function Profile() {
               style={{ height: 200, background: "#f5f5f5" }}
             >
               <img
-                src={user.banner || "https://placehold.co/1200x200?text=Banner"}
+                src={bg4} // Replace with user.banner if available
                 alt="Banner"
                 className="w-100 h-100 object-fit-cover"
                 style={{ objectFit: "cover", height: 200 }}
