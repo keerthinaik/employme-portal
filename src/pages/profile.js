@@ -41,7 +41,7 @@ function timeAgo(date) {
 }
 
 const mapApiToUser = (data) => ({
-  banner: data.bannerImage ? `${BASE_URL}/${data.bannerImage}` : "",
+  banner: data.bannerImage ? `${BASE_URL}${data.bannerImage}` : "",
   profilePhoto: data.profilePhoto ? `${BASE_URL}/${data.profilePhoto}` : "",
   fullName: data.name || "",
   headline: data.headline || "",
