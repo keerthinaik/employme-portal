@@ -29,6 +29,7 @@ import AboutTwo from "./componants/aboutTwo";
 import { AuthProvider } from "./apis/AuthContext";
 import Employers from "./pages/employers";
 import Profile from "./pages/profile";
+import JobDetail from "./pages/job-detail";
 
 function App() {
   return (
@@ -38,17 +39,13 @@ function App() {
         <Route path="/jobs" element={<JobListTwo />} />
         <Route path="/job-apply" element={<JobApply />} />
         <Route path="/job-post" element={<JobPost />} />
-        <Route path="/job-detail-three" element={<JobDetailThree />} />
-        <Route path="/job-detail-three/:id" element={<JobDetailThree />} />
+        <Route path="/jobs/:id" element={<JobDetailThree />} />
         <Route path="/candidates" element={<Candidates />} />
         <Route path="/candidate-profile" element={<CandidateProfile />} />
         <Route path="/candidate-profile/:id" element={<CandidateProfile />} />
         <Route path="/companies" element={<Employers />} />
         <Route path="/profile" element={<Profile />} />
-        <Route
-          path="/candidate-profile-setting"
-          element={<CandidateProfileSetting />}
-        />
+        <Route path="/job-detail/:id" element={<JobDetail />} />
         <Route path="/about-two" element={<AboutTwo />} />
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/login" element={<Login />} />

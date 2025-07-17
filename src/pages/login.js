@@ -18,7 +18,10 @@ export default function Login() {
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    setForm((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
     setError("");
   };
 
@@ -31,7 +34,10 @@ export default function Login() {
         method: "POST",
         body: form,
       });
+
       localStorage.setItem("token", res.token);
+      const token = localStorage.getItem("token");
+      console.log(`Logged in with token: ${token}`);
       // Optionally store user info if needed
       localStorage.setItem("user", JSON.stringify(res.data.user));
       login(res.data.user);

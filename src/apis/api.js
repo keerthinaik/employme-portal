@@ -7,9 +7,11 @@ export async function apiRequest(
   const headers = {
     "Content-Type": "application/json",
   };
-  if (token) {
-    headers["Authorization"] = `Bearer ${token}`;
+  if (!token) {
+    token = localStorage.getItem("token");
   }
+  headers["Authorization"] = `Bearer ${token}`;
+
   const res = await fetch(`${BASE_URL}${endpoint}`, {
     method,
     headers,

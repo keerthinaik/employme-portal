@@ -5,11 +5,20 @@ import client from "../assets/images/team/01.jpg";
 import { FiUser, FiLogOut, FiMenu } from "../assets/icons/vander";
 import { useAuth } from "../apis/AuthContext";
 
+// Set your API base URL here
+const BASE_URL = "http://localhost:3000";
+
 export default function Navbar({ navClass = "", navLight = false }) {
   const { user, logout } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const location = useLocation();
+
+  // Get user object from localStorage
+  const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
+  const profilePhoto = storedUser?.profilePhoto
+    ? `${BASE_URL}/${storedUser.profilePhoto}`
+    : client;
 
   // Close mobile menu on navigation
   const handleNavClick = () => setMobileOpen(false);
@@ -21,7 +30,7 @@ export default function Navbar({ navClass = "", navLight = false }) {
         navLight ? "navbar-light" : "navbar-dark"
       } bg-white shadow-sm`}
     >
-      <div className="container-fluid d-flex align-items-center justify-content-between px-3 w-100">
+      <div className="container d-flex align-items-center justify-content-between px-3 w-100">
         {/* Logo/Brand */}
         <Link className="navbar-brand d-flex align-items-center m-0" to="/">
           <span className="fw-bold fs-4 text-primary mb-0">EmployMe</span>
@@ -79,7 +88,7 @@ export default function Navbar({ navClass = "", navLight = false }) {
                 onClick={() => setDropdownOpen((open) => !open)}
               >
                 <img
-                  src={client}
+                  src={profilePhoto}
                   alt="Profile"
                   className="rounded-circle"
                   style={{ width: 36, height: 36, objectFit: "cover" }}

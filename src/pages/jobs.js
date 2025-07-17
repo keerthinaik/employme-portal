@@ -625,7 +625,8 @@ export default function Jobs() {
                             {item.city}
                           </span>
                           <span className="d-flex fw-medium mt-md-2">
-                            $950 - $1100/mo
+                            {item.ctcMinAmount} - {item.ctcMaxAmount}{" "}
+                            {item.ctcCurrency} {"/"} {item.ctcFrequency}
                           </span>
                         </div>
 
@@ -638,7 +639,7 @@ export default function Jobs() {
                             <FiShare2 className="icons" />
                           </Link>
                           <Link
-                            to={`/job-detail-three`}
+                            to={`/jobs/${item._id}`}
                             className="btn btn-sm btn-primary w-full ms-md-1"
                           >
                             Apply Now
